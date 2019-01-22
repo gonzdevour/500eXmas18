@@ -20188,96 +20188,6 @@ cr.plugins_.Function = function(runtime)
 }());
 ;
 ;
-cr.plugins_.GoogleAnalytics_ST = function(runtime)
-{
-	this.runtime = runtime;
-};
-(function ()
-{
-	var pluginProto = cr.plugins_.GoogleAnalytics_ST.prototype;
-	pluginProto.Type = function(plugin)
-	{
-		this.plugin = plugin;
-		this.runtime = plugin.runtime;
-	};
-	var typeProto = pluginProto.Type.prototype;
-	typeProto.onCreate = function()
-	{
-		if( !this.runtime.isCocoonJs )
-			return;
-	};
-	pluginProto.Instance = function(type)
-	{
-		this.type = type;
-		this.runtime = type.runtime;
-	};
-	var instanceProto = pluginProto.Instance.prototype;
-	instanceProto.onCreate = function()
-	{
-		this.timingEvents = {};
-		if( this.properties[0] == "" || this.properties[0] == "0" )
-			alert( "Please enter your Google Analytics Tracking ID in Google Analytic Object's properties for Google Analytics to work!" );
-		ga( 'create', this.properties[0], 'auto' );
-		ga( 'send', 'pageview' );
-	};
-	instanceProto.onDestroy = function ()
-	{
-	};
-	instanceProto.saveToJSON = function ()
-	{
-		return {
-		};
-	};
-	instanceProto.loadFromJSON = function (o)
-	{
-	};
-	instanceProto.draw = function(ctx)
-	{
-	};
-	instanceProto.drawGL = function (glw)
-	{
-	};
-	function Cnds() {};
-	pluginProto.cnds = new Cnds();
-	function Acts() {};
-	Acts.prototype.TrackEvent = function(category,action)
-	{
-		ga('send', 'event', category, action);
-	}
-	Acts.prototype.TrackEventEx = function(category,action,label,value)
-	{
-		ga('send', 'event', category, action, label, value);
-	}
-	Acts.prototype.TrackTimeStart = function(category,name)
-	{
-		var curTime = (new Date()).getTime();
-		var prop = "cat___" + category + "___name___" + name;
-		if( this.timingEvents.hasOwnProperty( prop ) )
-		{
-			ga('send', 'timing', category, name, curTime - this.timingEvents[ prop ] );
-		}
-		this.timingEvents[ prop ] = curTime;
-	}
-	Acts.prototype.TrackTimeStop = function(category,name)
-	{
-		var curTime = (new Date()).getTime();
-		var prop = "cat___" + category + "___name___" + name;
-		if( this.timingEvents.hasOwnProperty( prop ) )
-		{
-			ga('send', 'timing', category, name, curTime - this.timingEvents[ prop ] );
-			delete this.timingEvents[ prop ];
-		}
-		else
-		{
-			console.log( "Google Analytics Plugin: time tracking for " + prop + " was not started yet is now attempted to be stopped!" );
-		}
-	}
-	pluginProto.acts = new Acts();
-	function Exps() {};
-	pluginProto.exps = new Exps();
-}());
-;
-;
 cr.plugins_.NinePatch = function(runtime)
 {
 	this.runtime = runtime;
@@ -51213,48 +51123,47 @@ cr.behaviors.scrollto = function(runtime)
 cr.getObjectRefTable = function () { return [
 	cr.plugins_.NinePatch,
 	cr.plugins_.AJAX,
-	cr.plugins_.Browser,
-	cr.plugins_.GoogleAnalytics_ST,
 	cr.plugins_.Audio,
+	cr.plugins_.Browser,
 	cr.plugins_.Button,
 	cr.plugins_.Dictionary,
 	cr.plugins_.Function,
 	cr.plugins_.Particles,
 	cr.plugins_.Rex_Achievements,
-	cr.plugins_.Rex_CSV,
-	cr.plugins_.Rex_Container,
-	cr.plugins_.Rex_Comment,
 	cr.plugins_.Rex_Date,
 	cr.plugins_.Rex_audio_helper,
+	cr.plugins_.Rex_Container,
+	cr.plugins_.Rex_Comment,
+	cr.plugins_.Rex_CSV,
 	cr.plugins_.Rex_Firebase,
-	cr.plugins_.Rex_Firebase_SimpleMessage,
 	cr.plugins_.Rex_Firebase_Rooms,
-	cr.plugins_.Rex_FirebaseAPIV3,
 	cr.plugins_.Rex_Firebase_Authentication,
+	cr.plugins_.Rex_FirebaseAPIV3,
+	cr.plugins_.Rex_Firebase_SimpleMessage,
 	cr.plugins_.Rex_Layouter,
-	cr.plugins_.Rex_Graph,
-	cr.plugins_.Rex_GraphMovement,
-	cr.plugins_.Rex_FSM,
-	cr.plugins_.Rex_GoogleWebFontLoader,
-	cr.plugins_.Rex_GridCtrl,
-	cr.plugins_.Rex_gInstGroup,
 	cr.plugins_.Rex_fnCallPkg,
+	cr.plugins_.Rex_gInstGroup,
+	cr.plugins_.Rex_Graph,
+	cr.plugins_.Rex_FSM,
+	cr.plugins_.Rex_GraphMovement,
+	cr.plugins_.Rex_GridCtrl,
+	cr.plugins_.Rex_GoogleWebFontLoader,
 	cr.plugins_.Rex_MomenJS,
 	cr.plugins_.Rex_Mustache,
 	cr.plugins_.Rex_Nickname,
 	cr.plugins_.Rex_Scenario,
-	cr.plugins_.Rex_SysExt,
-	cr.plugins_.Rex_taffydb,
 	cr.plugins_.rex_TagText,
 	cr.plugins_.Rex_TimeLine,
+	cr.plugins_.Rex_taffydb,
+	cr.plugins_.Rex_SysExt,
+	cr.plugins_.Rex_WaitEvent,
 	cr.plugins_.Rex_WebstorageExt,
 	cr.plugins_.rex_TouchWrap,
-	cr.plugins_.Rex_WaitEvent,
+	cr.plugins_.Text,
+	cr.plugins_.TextBox,
 	cr.plugins_.SpriteFontPlus,
 	cr.plugins_.WebStorage,
 	cr.plugins_.Sprite,
-	cr.plugins_.TextBox,
-	cr.plugins_.Text,
 	cr.behaviors.Rex_pin2imgpt,
 	cr.behaviors.rex_lunarray_Tween_mod,
 	cr.behaviors.Rex_DragDrop2,
@@ -51609,7 +51518,6 @@ cr.getObjectRefTable = function () { return [
 	cr.system_object.prototype.acts.GoToLayout,
 	cr.plugins_.Rex_Firebase_Authentication.prototype.acts.ProviderAuthentication_Login,
 	cr.plugins_.Rex_Firebase_Authentication.prototype.cnds.OnLoginSuccessful,
-	cr.plugins_.GoogleAnalytics_ST.prototype.acts.TrackEvent,
 	cr.plugins_.Rex_MomenJS.prototype.acts.SetFromString,
 	cr.plugins_.Rex_WaitEvent.prototype.acts.WaitEvent,
 	cr.plugins_.AJAX.prototype.acts.RequestFile,

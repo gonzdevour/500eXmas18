@@ -1,6 +1,6 @@
 ﻿{
 	"id": "com.playone.xmas500e",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"name": "聖誕企劃",
 	"description": "總之為了五年五百億你想跟哪位女孩一起過聖誕呢？",
 	"author": "playone",
@@ -30,7 +30,7 @@
 		{ "id": "cordova-plugin-wkwebview-engine", "version": null }
 	],
 	"android": {
-		"min": 21,
+		"min": 23,
 		"target": 26,
 		"plugins": []
 	},
