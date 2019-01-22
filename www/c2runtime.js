@@ -51808,6 +51808,8 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Browser.prototype.cnds.IsFullscreen,
 	cr.plugins_.Browser.prototype.acts.CancelFullScreen,
 	cr.plugins_.Browser.prototype.acts.RequestFullScreen,
+	cr.plugins_.Browser.prototype.cnds.OnBackButton,
+	cr.plugins_.Browser.prototype.acts.Close,
 	cr.behaviors.Rex_TouchArea2.prototype.exps.Distance,
 	cr.system_object.prototype.exps.find,
 	cr.plugins_.Browser.prototype.exps.Language,
