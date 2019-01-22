@@ -39157,6 +39157,268 @@ cr.plugins_.WebStorage = function(runtime)
 }());
 ;
 ;
+/*
+cr.plugins_.cranberrygame_CordovaInAppBrowser = function(runtime)
+{
+	this.runtime = runtime;
+	Type
+		onCreate
+	Instance
+		onCreate
+		draw
+		drawGL
+	cnds
+	acts
+	exps
+};
+*/
+cr.plugins_.cranberrygame_CordovaInAppBrowser = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+/*
+	var fbAppID = "";
+	var fbAppSecret = "";
+*/
+	typeProto.onCreate = function()
+	{
+/*
+		var newScriptTag=document.createElement('script');
+		newScriptTag.setAttribute("type","text/javascript");
+		newScriptTag.setAttribute("src", "mylib.js");
+		document.getElementsByTagName("head")[0].appendChild(newScriptTag);
+		var scripts=document.getElementsByTagName("script");
+		var scriptExist=false;
+		for(var i=0;i<scripts.length;i++){
+			if(scripts[i].src.indexOf("cordova.js")!=-1||scripts[i].src.indexOf("phonegap.js")!=-1){
+				scriptExist=true;
+				break;
+			}
+		}
+		if(!scriptExist){
+			var newScriptTag=document.createElement("script");
+			newScriptTag.setAttribute("type","text/javascript");
+			newScriptTag.setAttribute("src", "cordova.js");
+			document.getElementsByTagName("head")[0].appendChild(newScriptTag);
+		}
+*/
+		if(this.runtime.isBlackberry10 || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81){
+			var scripts=document.getElementsByTagName("script");
+			var scriptExist=false;
+			for(var i=0;i<scripts.length;i++){
+				if(scripts[i].src.indexOf("cordova.js")!=-1||scripts[i].src.indexOf("phonegap.js")!=-1){
+					scriptExist=true;
+					break;
+				}
+			}
+			if(!scriptExist){
+				var newScriptTag=document.createElement("script");
+				newScriptTag.setAttribute("type","text/javascript");
+				newScriptTag.setAttribute("src", "cordova.js");
+				document.getElementsByTagName("head")[0].appendChild(newScriptTag);
+			}
+		}
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+/*
+		this.arr = [];
+		this.forX = 0;
+		var self=this;
+		window.addEventListener("resize", function () {//cranberrygame
+			self.runtime.trigger(cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.cnds.TriggerCondition, self);
+		});
+*/
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function (glw)
+	{
+	};
+/*
+	instanceProto.at = function (x)
+	{
+		return this.arr[x];
+	};
+	instanceProto.set = function (x, val)
+	{
+		this.arr[x] = val;
+	};
+	instanceProto.doForEachTrigger = function (current_event)
+	{
+		this.runtime.pushCopySol(current_event.solModifiers);
+		current_event.retrigger();
+		this.runtime.popSol(current_event.solModifiers);
+	};
+*/
+	function Cnds() {};
+/*
+	Cnds.prototype.MyCondition = function (myparam)
+	{
+		return myparam >= 0;
+	};
+	Cnds.prototype.TriggerCondition = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.ArrForEach = function ()
+	{
+        var current_event = this.runtime.getCurrentEventStack().current_event;
+		this.forX = 0;
+		for (this.forX = 0; this.forX < this.arr.length; this.forX++)
+		{
+			this.doForEachTrigger(current_event);
+		}
+		this.forX = 0;
+		return false;
+	};
+*/
+	Cnds.prototype.OnLoadStart = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnLoadStop = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnLoadError = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnExit = function ()
+	{
+		return true;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+/*
+	Acts.prototype.MyAction = function (myparam)
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
+		alert(myparam);
+	};
+	Acts.prototype.TriggerAction = function ()
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		if (this.runtime.isAndroid && navigator.platform == 'Win32')//crosswalk emulator
+			return;
+		var self=this;
+		self.runtime.trigger(cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.cnds.TriggerCondition, self);
+	};
+*/
+	function indexToTarget(i)
+	{
+		switch (i) {
+		case 0:		return "_self";
+		case 1:		return "_blank";
+		case 2:		return "_system";
+		}
+		return "_blank";
+	};
+	Acts.prototype.Open = function (URL, target, locationBar)
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		var locationBarStr = 'location=no';
+		if (locationBar == 1)
+			locationBarStr = "location=yes";
+		this.ref = window['open'](URL, indexToTarget(target), locationBarStr);
+		var self = this;
+		this.ref.addEventListener('loadstart', function(event) {
+			self.url = event['url'];
+			self.runtime.trigger(cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.cnds.OnLoadStart, self);
+		});
+		this.ref.addEventListener('loadstop', function(event) {
+			self.url = event['url'];
+			self.runtime.trigger(cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.cnds.OnLoadStop, self);
+		});
+		this.ref.addEventListener('loaderror', function(event) {
+			self.url = event['url'];
+			self.runtime.trigger(cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.cnds.OnLoadError, self);
+		});
+		this.ref.addEventListener('exit', function(event) {
+			self.url = event['url'];
+			self.runtime.trigger(cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.cnds.OnExit, self);
+		});
+	};
+	Acts.prototype.Show = function ()
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		this.ref['show']();
+	};
+	Acts.prototype.Close = function ()
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		this.ref['close']();
+	};
+	Acts.prototype.ExecuteScript = function (scriptFile)
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		this.ref['executeScript']({'file': scriptFile});
+	};
+	Acts.prototype.InsertCSS = function (cssFile)
+	{
+		if (!(this.runtime.isAndroid || this.runtime.isBlackberry10 || this.runtime.isiOS || this.runtime.isWindows8App || this.runtime.isWindowsPhone8 || this.runtime.isWindowsPhone81))
+			return;
+		this.ref['insertCSS']({'file': cssFile});
+	};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+/*
+	Exps.prototype.CellXCount = function (ret)	// 'ret' must always be the first parameter - always return the expression's result through it!
+	{
+		ret.set_int(1337);				// return our value
+	};
+	Exps.prototype.Text = function (ret, param) //cranberrygame
+	{
+		ret.set_string("Hello");		// for ef_return_string
+	};
+	Exps.prototype.CurValue = function (ret)
+	{
+		ret.set_any(this.at(this.forX));
+	};
+	Exps.prototype.At = function (ret, x_)
+	{
+		ret.set_any(this.at(x));
+	};
+	Exps.prototype.Width = function (ret)
+	{
+		ret.set_int(this.cx);
+	};
+*/
+	Exps.prototype.URL = function (ret)	// 'ret' must always be the first parameter - always return the expression's result through it!
+	{
+		ret.set_string(this.url);		// for ef_return_string
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
 cr.plugins_.rex_TagText = function (runtime) {
     this.runtime = runtime;
 };
@@ -51164,6 +51426,7 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.SpriteFontPlus,
 	cr.plugins_.WebStorage,
 	cr.plugins_.Sprite,
+	cr.plugins_.cranberrygame_CordovaInAppBrowser,
 	cr.behaviors.Rex_pin2imgpt,
 	cr.behaviors.rex_lunarray_Tween_mod,
 	cr.behaviors.Rex_DragDrop2,
@@ -51535,10 +51798,9 @@ cr.getObjectRefTable = function () { return [
 	cr.plugins_.Rex_taffydb.prototype.acts.SetRowIndex,
 	cr.plugins_.Rex_taffydb.prototype.exps.CurRowIndex,
 	cr.plugins_.Rex_MomenJS.prototype.exps.UnixTimestamp,
-	cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-	cr.system_object.prototype.exps.floor,
-	cr.system_object.prototype.exps.loadingprogress,
 	cr.system_object.prototype.acts.GoToLayoutByName,
+	cr.system_object.prototype.cnds.IsOnPlatform,
+	cr.plugins_.cranberrygame_CordovaInAppBrowser.prototype.acts.Open,
 	cr.plugins_.Browser.prototype.acts.GoToURLWindow,
 	cr.plugins_.Browser.prototype.acts.GoToURL,
 	cr.system_object.prototype.exps.windowwidth,
